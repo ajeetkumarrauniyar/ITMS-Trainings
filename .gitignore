@@ -1,0 +1,6 @@
+.vscode
+.DS_Store
+*wp-content/plugins
+*wp-content/themes/tutorstarter
+*wp-content/uploads
+*.zip
