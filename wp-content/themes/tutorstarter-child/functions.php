@@ -2,10 +2,9 @@
 // Exit if accessed directly
 if (!defined('ABSPATH')) exit;
 
-
 // BEGIN ENQUEUE PARENT ACTION
 
-// Enqueue Parent Theme Stylesheet
+// Enqueue Parent and Child Theme Stylesheets
 function child_theme_enqueue_styles()
 {
     // Enqueue Parent Stylesheet
@@ -14,26 +13,26 @@ function child_theme_enqueue_styles()
     // Enqueue Child Theme Stylesheet
     wp_enqueue_style('child-style', get_stylesheet_directory_uri() . '/style.css', array('parent-style'), wp_get_theme()->get('Version'));
 
-    // Enqueue Tailwind CSS Stylesheets
-    // wp_enqueue_style('tailwind-style', get_stylesheet_directory_uri() . '/tailwindcss_output.css', array('child-style'), wp_get_theme()->get('Version'));
+    // Enqueue Global Stylesheet
+    wp_enqueue_style('global-styles', get_stylesheet_directory_uri() . '/global-style.css', array('child-style'), wp_get_theme()->get('Version'));
 
-    // Enqueue Additional Stylesheets
-    wp_enqueue_style('custom-styles', get_stylesheet_directory_uri() . '/global-style.css', array('child-style'), wp_get_theme()->get('Version'));
+    // Enqueue Additional Stylesheets Conditionally
+    if (is_page_template('page-home.php')) {
+        wp_enqueue_style('page-home-styles', get_stylesheet_directory_uri() . '/page-home.css', array('global-styles'), wp_get_theme()->get('Version'));
+    }
+    
+    if (is_page('login')) {
+        wp_enqueue_style('login-styles', get_stylesheet_directory_uri() . '/login.css', array('global-styles'), wp_get_theme()->get('Version'));
+    }
 
-    // Enqueue Homepage Stylesheets
-    wp_enqueue_style('custom-styles', get_stylesheet_directory_uri() . '/page-home.css', array('child-style'), wp_get_theme()->get('Version'));
-
-    // Enqueue Login Stylesheets
-    wp_enqueue_style('custom-styles', get_stylesheet_directory_uri() . '/login.css', array('child-style'), wp_get_theme()->get('Version'));
-
-    // Enqueue Password Reset Stylesheets
-    wp_enqueue_style('custom-styles', get_stylesheet_directory_uri() . '/password-reset.css', array('child-style'), wp_get_theme()->get('Version'));
+    if (is_page('password-reset')) {
+        wp_enqueue_style('password-reset-styles', get_stylesheet_directory_uri() . '/password-reset.css', array('global-styles'), wp_get_theme()->get('Version'));
+    }
 
     // Enqueue Custom Blog Stylesheets
     if (is_home()) {
-        wp_enqueue_style('custom-styles', get_stylesheet_directory_uri() . '/home.css', array('child-style'), wp_get_theme()->get('Version'));
+        wp_enqueue_style('home-styles', get_stylesheet_directory_uri() . '/home.css', array('global-styles'), wp_get_theme()->get('Version'));
     }
-
     // Enqueue Checkout Stylesheets
     if (is_checkout()) {
         wp_enqueue_style('custom-checkout', get_stylesheet_directory_uri() . '/custom-checkout.css', array('child-style'), wp_get_theme()->get('Version'));

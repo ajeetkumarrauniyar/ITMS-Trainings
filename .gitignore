@@ -2,5 +2,6 @@
 .DS_Store
 *wp-content/plugins
 *wp-content/themes/tutorstarter
+!wp-content/themes/tutorstarter-child
 *wp-content/uploads
 *.zip
